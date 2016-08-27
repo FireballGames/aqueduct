@@ -5,8 +5,10 @@ import d2game
 import game.player
 import game.level
 
+import pygame
 
-TITLE = "Beat'em up"
+TITLE = "Aqueduct"
+BACKGROUND_COLOR = pygame.Color(255, 255, 0)
 
 
 class Game(d2game.Game):
