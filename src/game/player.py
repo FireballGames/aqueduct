@@ -7,7 +7,7 @@ import d2game.player
 
 # import game.entity
 
-START_POS = (16 * config.BLOCK, 15 * config.BLOCK)
+START_POS = (16, 15)
 
 
 class Player(d2game.player.Player):  # (game.entity.Entity):
