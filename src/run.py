@@ -2,22 +2,27 @@
 # -*- coding: utf-8 -*-
 
 
-import config
-
-
 def main():
+
     import os
+    import config
 
     # config.RES_DIR = "{}/../res".format(os.path.dirname(os.path.abspath(__file__)))
     config.ROOT_DIR = "{}/..".format(os.path.dirname(os.path.abspath(__file__)))
     config.load()
 
+    import logging
+    logging.info('Starting')
+
+    import config.resource
     import game
     import game.gui
 
     gui = game.gui.GUI()
     g = game.Game()
     gui.set_game(g)
+    gui.set_background(config.resource.BACKGROUND)
+    gui.draw_background()
     g.run()
 
     while g.is_running():

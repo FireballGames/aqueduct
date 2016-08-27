@@ -5,3 +5,5 @@ window:
     - 800
     - 600
 resource: res
+logging:
+  level: DEBUG

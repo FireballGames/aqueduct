@@ -2,30 +2,35 @@
 # -*- coding: utf-8 -*-
 
 import os
-import yaml
 
 
 ROOT_DIR = "{}/../..".format(os.path.dirname(__file__))
-# RES_DIR = "{}/res".format(ROOT_DIR)
 CONFIG_FILE = "{}/config/config.yml".format(ROOT_DIR)
-
-BLOCK = 24
-# WIN_WIDTH = 800   # 32 * BLOCK
-# WIN_HEIGHT = 600  # 24 * BLOCK
 
 config = dict()
 
 
+def get_loglevel(loglevel):
+    import logging
+
+    level = getattr(logging, loglevel.upper())
+    if not isinstance(level, int):
+        return logging.WARNING
+    return level
+
+
 def load():
     global config, RES_DIR
+    import logging
+    import yaml
 
     with open(CONFIG_FILE, 'r') as f:
         config = yaml.load(f)
-        WINDOW = config.get('window', dict())
-        # WIN_WIDTH = WINDOW.get('width', WIN_WIDTH)
-        # WIN_HEIGHT = WINDOW.get('height', WIN_HEIGHT)
-        # DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
         RES_DIR = "{}/{}".format(ROOT_DIR, config.get("resource", "res"))
 
-    print(config)
-    print(RES_DIR)
+        log = config.get("logging", dict())
+        log["level"] = get_loglevel(log.get("level"))
+        logging.basicConfig(**log)
+
+    logging.debug("Config data:{}".format(config))
+    logging.debug("Resource dir is '{}'".format(RES_DIR))
