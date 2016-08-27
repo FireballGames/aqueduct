@@ -7,7 +7,7 @@ import pygame
 class Level():
     def __init__(self, player):
         self.background = None
-        self.entities = pygame.sprite.Group()
+        self.entities = pygame.sprite.LayeredUpdates()
         self.entities.add(player)
         self.enemies = self.generate_enemies()
         for enemy in self.enemies:

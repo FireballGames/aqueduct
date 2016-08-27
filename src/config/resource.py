@@ -13,5 +13,12 @@ Tiles = [
     "{}/tiles/tree.png".format(config.RES_DIR),
     "{}/tiles/rock.png".format(config.RES_DIR),
 ]
+Towns = [
+    "{}/images/house.png".format(config.RES_DIR),
+]
+Wells = [
+    "{}/images/tank_full.png".format(config.RES_DIR),
+    "{}/images/tank_empty.png".format(config.RES_DIR),
+]
 
 HERO_SIZE = (91, 173)
