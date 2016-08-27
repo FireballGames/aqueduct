@@ -64,7 +64,12 @@ class GUI():
                 self.key_event(event.key, True)
             if event.type == pygame.KEYUP:
                 self.key_event(event.key, False)
+            if event.type == pygame.MOUSEBUTTONUP:
+                self.mouse_event(pygame.mouse.get_pos())
 
     def key_event(self, key, down):
         if key == pygame.K_ESCAPE:
             self.game.quit()
+
+    def mouse_event(self, mouse_pos):
+        pass

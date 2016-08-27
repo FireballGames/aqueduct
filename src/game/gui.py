@@ -14,9 +14,8 @@ import d2gui
 
 
 class GUI(d2gui.GUI):
-    def key_event(self, key, down):
-        pass
-        # d2gui.GUI.key_event(self, key, down)
-        # direction = DIR_KEYS.get(key)
-        # if direction:
-        #     self.player.go(direction, down)
+    def mouse_event(self, mouse_pos):
+        import logging
+        logging.debug(mouse_pos)
+        clicked = [s for s in self.game.level.entities if s.rect.collidepoint(mouse_pos)]
+        logging.debug(clicked)
