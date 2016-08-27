@@ -16,19 +16,6 @@ def load_image(name):
     return image, image.get_rect()
 
 
-def background(background):
-    screen = pygame.display.get_surface()
-    bg = pygame.Surface(screen.get_size())  # (display) # Создание видимой поверхности
-    bg = bg.convert()
-    # bg.fill(pygame.Color(config.BACKGROUND_COLOR)) # Заливаем поверхность сплошным цветом
-    bg.fill((0, 0, 0))
-    screen.blit(bg, (0, 0))
-    back, back_rect = load_image(background)
-    screen.blit(back, (0, 0))
-    pygame.display.flip()
-    return back
-
-
 class GUI():
     def __init__(self):
         pygame.init()
@@ -47,11 +34,23 @@ class GUI():
         self.player = self.game.hero
         # self.entities.add(self.player)
 
+    def set_background(self, filename):
+        self.background, back_rect = load_image(filename)
+
+    def draw_background(self):
+        screen = pygame.display.get_surface()
+        back = pygame.Surface(screen.get_size())
+        back = back.convert()
+        back.fill(game.BACKGROUND_COLOR)
+        screen.blit(back, (0, 0))
+        screen.blit(self.background, (0, 0))
+        pygame.display.flip()
+
     def draw(self):
         # self.bg = pygame.image.load(self.game.level.background)
 
         # self.window.blit(self.bg, (0,0))
-        self.bg = background(self.game.level.background)
+        # self.bg = background(self.game.level.background)
         self.game.level.entities.draw(self.window)
 
         pygame.display.update()     # обновление и вывод всех изменений на экран
