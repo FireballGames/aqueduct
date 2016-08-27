@@ -1,0 +1,14 @@
+32x32:
+	aqueduct_corner_empty.png
+	aqueduct_corner_full.png
+	grass.png
+	house.png
+	rock.png
+	tree.png
+	water.png
+36x96:
+	aqueduct_empty.png
+	aqueduct_full.png
+128x128:
+	tank_empty.png
+	tank_full.png
