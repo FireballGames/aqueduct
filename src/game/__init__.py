@@ -3,7 +3,7 @@
 
 import d2game
 import game.player
-import game.level
+import game.levelmap
 
 import pygame
 
@@ -16,7 +16,11 @@ class Game(d2game.Game):
         return game.player.Player()
 
     def next_level(self):
-        self.level = game.level.Level(self.hero)
+        self.level = game.levelmap.LevelMap(self.hero)
+        self.level.generate_map()
+
+        import logging
+        self.level.generate_surface()
         return self.level
 
     def turn(self):
