@@ -16,6 +16,7 @@ class TerrType(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.terr_id = id
 
+
 class TileType(pygame.sprite.Sprite):
     def __init__(self, id):
         pygame.sprite.Sprite.__init__(self)
@@ -138,15 +139,22 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         import random
         import logging
+
         town = Town(self.towns[0])
         x, y = random.randrange(0, 16), random.randrange(0, 16)
         self.locations[x][y].tile_object = town
         logging.debug((x, y))
-        well = Well(self.wells[0])
-        x, y = random.randrange(0, 16), random.randrange(0, 16)
-        self.locations[x][y].tile_object = well
-        logging.debug((x, y))
 
+        well = Well(self.wells[0])
+        x, y = random.randrange(0, 12), random.randrange(0, 12)
+        logging.debug((x, y))
+        for i in range(x, x+4):
+            for j in range(y, y+4):
+                t = self.locations[i][j]
+                t.terrain = self.terrains[0]
+                t.image = t.terrain.image
+                t.tile_object = None
+        self.locations[x][y].tile_object = well
 
     def generate_surface(self):
         for i in range(self.xsize):
