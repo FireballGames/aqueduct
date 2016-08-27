@@ -6,6 +6,16 @@ import pygame.sprite
 import pygame.image
 
 
+class TerrType(pygame.sprite.Sprite):
+    def __init__(self, id):
+        pygame.sprite.Sprite.__init__(self)
+
+        import config.resource
+        filename = config.resource.Tiles[id]
+        self.image = pygame.image.load(filename)
+        self.rect = self.image.get_rect()
+        self.terr_id = id
+
 class TileType(pygame.sprite.Sprite):
     def __init__(self, id):
         pygame.sprite.Sprite.__init__(self)
@@ -17,7 +27,7 @@ class TileType(pygame.sprite.Sprite):
         self.type_id = id
 
 
-class Tile(pygame.sprite.Sprite):
+class TileObject(pygame.sprite.Sprite):
     def __init__(self, tile_type):
         pygame.sprite.Sprite.__init__(self)
         self.tile_type = tile_type
@@ -25,30 +35,50 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
+class Tile(pygame.sprite.Sprite):
+    def __init__(self, terrain, tile_type=None):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.terrain = terrain
+        self.image = terrain.image
+        self.rect = self.image.get_rect()
+        if tile_type:
+            self.tile_object = TileObject(tile_type)
+            self.tile_object.rect = self.rect
+        else:
+            self.tile_object = None
+
+
 class LevelMap(d2game.levelmap.LevelMap):
     def __init__(self, player):
         d2game.levelmap.LevelMap.__init__(self, player)
 
+        self.terrains = {
+            0: TerrType(0),
+            1: TerrType(1),
+        }
+
         self.tiles = {
-            0: TileType(0),
-            1: TileType(1),
-            2: TileType(2),
-            3: TileType(3),
+            0: TileType(2),
+            1: TileType(3),
         }
 
     def generate_tile(self):
         import random
 
-        return Tile(self.tiles[0])
         i = random.randrange(0, 100)
         if i > 90:
-            return Tile(self.tiles[3])
-        elif i > 75:
-            return Tile(self.tiles[2])
-        elif i > 50:
-            return Tile(self.tiles[1])
+            return Tile(self.terrains[1])
         else:
-            return Tile(self.tiles[0])
+            terr = self.terrains[0]
+
+        i = random.randrange(0, 100)
+        if i > 95:
+            return Tile(terr, self.tiles[1])
+        elif i > 90:
+            return Tile(terr, self.tiles[0])
+        else:
+            return Tile(terr)
 
     def generate_map(self):
         self.locations = [[self.generate_tile() for j in range(self.ysize)] for i in range(self.xsize)]
@@ -60,3 +90,5 @@ class LevelMap(d2game.levelmap.LevelMap):
                 tile.rect.x = i * 32
                 tile.rect.y = j * 32
                 self.entities.add(tile)
+                if tile.tile_object:
+                    self.entities.add(tile.tile_object)
