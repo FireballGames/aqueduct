@@ -9,6 +9,7 @@ import pygame.transform
 
 
 class SpriteLib(pygame.sprite.Sprite):
+    watered = False
     def __init__(self, id):
         pygame.sprite.Sprite.__init__(self)
 
@@ -41,6 +42,7 @@ class TownType(SpriteLib):
 
 
 class WellType(SpriteLib):
+    watered = True
     def __init__(self, id):
         import config.resource
         self.lib = config.resource.Wells
