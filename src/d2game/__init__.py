@@ -14,6 +14,7 @@ class Game():
     def __init__(self):
         self.state = STATE_START
         self.hero = self.new_hero()
+        self.level = None
 
     def run(self):
         self.next_level()

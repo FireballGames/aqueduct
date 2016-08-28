@@ -15,12 +15,18 @@ def main():
     logging.info('Starting')
 
     # import config.resource
+    import d2game
     import game.game
     import game.gui
 
     gui = game.gui.GUI()
     g = game.game.Game()
     gui.set_game(g)
+
+    while g.state == d2game.STATE_START:
+        gui.process_events()
+        gui.draw()
+
     # gui.set_background(config.resource.BACKGROUND)
     gui.draw_background()
     g.run()

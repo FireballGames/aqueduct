@@ -53,7 +53,8 @@ class GUI():
 
         # self.window.blit(self.bg, (0,0))
         # self.bg = background(self.game.level.background)
-        self.game.level.entities.draw(self.window)
+        if self.game.level:
+            self.game.level.entities.draw(self.window)
 
         pygame.display.update()     # обновление и вывод всех изменений на экран
         self.timer.tick(30)
