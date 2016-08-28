@@ -14,7 +14,7 @@ Tiles = [
     "{}/tiles/rock.png".format(config.RES_DIR),
 ]
 Towns = [
-    "{}/images/house.png".format(config.RES_DIR),
+    "{}/images/house_without_water.png".format(config.RES_DIR),
 ]
 Wells = [
     "{}/images/tank_full.png".format(config.RES_DIR),
