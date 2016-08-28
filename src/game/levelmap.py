@@ -7,48 +7,42 @@ import pygame.sprite
 import pygame.image
 
 
-class TerrType(pygame.sprite.Sprite):
+class SpriteLib(pygame.sprite.Sprite):
     def __init__(self, id):
         pygame.sprite.Sprite.__init__(self)
 
-        import config.resource
-        filename = config.resource.Tiles[id]
-        self.image = pygame.image.load(filename)
-        self.rect = self.image.get_rect()
-        self.terr_id = id
-
-
-class TileType(pygame.sprite.Sprite):
-    def __init__(self, id):
-        pygame.sprite.Sprite.__init__(self)
-
-        import config.resource
-        filename = config.resource.Tiles[id]
+        filename = self.lib[id]
         self.image = pygame.image.load(filename)
         self.rect = self.image.get_rect()
         self.type_id = id
 
 
-class TownType(pygame.sprite.Sprite):
+class TerrType(SpriteLib):
     def __init__(self, id):
-        pygame.sprite.Sprite.__init__(self)
-
         import config.resource
-        filename = config.resource.Towns[id]
-        self.image = pygame.image.load(filename)
-        self.rect = self.image.get_rect()
-        self.type_id = id
+        self.lib = config.resource.Tiles
+        SpriteLib.__init__(self, id)
 
 
-class WellType(pygame.sprite.Sprite):
+class TileType(SpriteLib):
     def __init__(self, id):
-        pygame.sprite.Sprite.__init__(self)
-
         import config.resource
-        filename = config.resource.Wells[id]
-        self.image = pygame.image.load(filename)
-        self.rect = self.image.get_rect()
-        self.type_id = id
+        self.lib = config.resource.Tiles
+        SpriteLib.__init__(self, id)
+
+
+class TownType(SpriteLib):
+    def __init__(self, id):
+        import config.resource
+        self.lib = config.resource.Towns
+        SpriteLib.__init__(self, id)
+
+
+class WellType(SpriteLib):
+    def __init__(self, id):
+        import config.resource
+        self.lib = config.resource.Wells
+        SpriteLib.__init__(self, id)
 
 
 class Town(d2game.location.ObjectType):
@@ -68,10 +62,10 @@ class LevelMap(d2game.levelmap.LevelMap):
             TerrType(1),
         ]
 
-        self.tiles = {
-            0: TileType(2),
-            1: TileType(3),
-        }
+        self.tiles = [
+            TileType(2),
+            TileType(3),
+        ]
 
         self.towns = [
             TownType(0),
