@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import game
 import d2gui
 # import pygame
 
@@ -16,7 +17,10 @@ import d2gui
 class GUI(d2gui.GUI):
     def __init__(self):
         d2gui.GUI.__init__(self)
+
+        import pygame
         self.show_logo()
+        self.tool_panel = pygame.Surface((100, 100))
 
     def show_logo(self):
         import config.resource
@@ -32,6 +36,30 @@ class GUI(d2gui.GUI):
             self.game.run()
             return True
         return False
+
+    def draw_cash(self):
+        import pygame
+        import pygame.font
+
+        font = pygame.font.SysFont("monospace", 15)
+        label = font.render(str(self.game.cash), True, (0, 185, 0))
+
+        self.tool_panel.fill(pygame.Color(196, 196, 196))
+        self.tool_panel.blit(label, (0, 0))
+
+        screen = pygame.display.get_surface()
+        screen.blit(self.tool_panel, (800, 600))
+
+    def draw(self):
+        import d2game
+        if self.game.state == d2game.STATE_RUNNING:
+            self.draw_cash()
+        d2gui.GUI.draw(self)
+
+    def process_event(self, event):
+        d2gui.GUI.process_event(self, event)
+        if event.type == game.AUTOCASH_EVENT:
+            self.game.cash += 1
 
     def key_event(self, key, down):
         if self.run_game():

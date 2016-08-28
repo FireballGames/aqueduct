@@ -61,14 +61,17 @@ class GUI():
 
     def process_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.game.quit()
-            if event.type == pygame.KEYDOWN:
-                self.key_event(event.key, True)
-            if event.type == pygame.KEYUP:
-                self.key_event(event.key, False)
-            if event.type == pygame.MOUSEBUTTONUP:
-                self.mouse_event(pygame.mouse.get_pos())
+            self.process_event(event)
+
+    def process_event(self, event):
+        if event.type == pygame.QUIT:
+            self.game.quit()
+        if event.type == pygame.KEYDOWN:
+            self.key_event(event.key, True)
+        if event.type == pygame.KEYUP:
+            self.key_event(event.key, False)
+        if event.type == pygame.MOUSEBUTTONUP:
+            self.mouse_event(pygame.mouse.get_pos())
 
     def key_event(self, key, down):
         if key == pygame.K_ESCAPE:
