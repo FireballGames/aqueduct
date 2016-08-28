@@ -14,14 +14,14 @@ def main():
     import logging
     logging.info('Starting')
 
-    import config.resource
+    # import config.resource
     import game.game
     import game.gui
 
     gui = game.gui.GUI()
     g = game.game.Game()
     gui.set_game(g)
-    gui.set_background(config.resource.BACKGROUND)
+    # gui.set_background(config.resource.BACKGROUND)
     gui.draw_background()
     g.run()
 

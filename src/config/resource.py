@@ -4,7 +4,7 @@
 import config
 
 
-BACKGROUND = "{}/back.png".format(config.RES_DIR)
+LOGO = "{}/title.png".format(config.RES_DIR)
 PLAYER = "{}/well.png".format(config.RES_DIR)
 
 Tiles = [

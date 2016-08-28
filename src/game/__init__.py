@@ -4,5 +4,5 @@
 import pygame
 
 TITLE = "Aqueduct"
-BACKGROUND_COLOR = pygame.Color(255, 255, 0)
+BACKGROUND_COLOR = pygame.Color(0, 0, 0)
 FIELD_SIZE = (24, 18)
