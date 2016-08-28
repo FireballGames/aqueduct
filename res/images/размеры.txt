@@ -2,7 +2,11 @@
 	aqueduct_corner_empty.png
 	aqueduct_corner_full.png
 	grass.png
-	house.png
+	house_with_water.png
+	house_without_water.png
+	coins.png
+	happy.png
+	unhappy.png
 	rock.png
 	tree.png
 	water.png
