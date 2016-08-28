@@ -4,7 +4,7 @@
 import config
 
 
-BACKGROUND = "{}/back.png".format(config.RES_DIR)
+LOGO = "{}/title.png".format(config.RES_DIR)
 PLAYER = "{}/well.png".format(config.RES_DIR)
 
 Tiles = [
@@ -14,7 +14,7 @@ Tiles = [
     "{}/tiles/rock.png".format(config.RES_DIR),
 ]
 Towns = [
-    "{}/images/house.png".format(config.RES_DIR),
+    "{}/images/house_without_water.png".format(config.RES_DIR),
 ]
 Wells = [
     "{}/images/tank_full.png".format(config.RES_DIR),

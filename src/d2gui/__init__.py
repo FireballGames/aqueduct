@@ -32,6 +32,7 @@ class GUI():
     def set_game(self, g):
         self.game = g
         self.player = self.game.hero
+        self.background = None
         # self.entities.add(self.player)
 
     def set_background(self, filename):
@@ -43,7 +44,8 @@ class GUI():
         back = back.convert()
         back.fill(game.BACKGROUND_COLOR)
         screen.blit(back, (0, 0))
-        screen.blit(self.background, (0, 0))
+        if self.background:
+            screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
     def draw(self):
@@ -51,7 +53,8 @@ class GUI():
 
         # self.window.blit(self.bg, (0,0))
         # self.bg = background(self.game.level.background)
-        self.game.level.entities.draw(self.window)
+        if self.game.level:
+            self.game.level.entities.draw(self.window)
 
         pygame.display.update()     # обновление и вывод всех изменений на экран
         self.timer.tick(30)
