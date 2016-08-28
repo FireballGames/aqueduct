@@ -6,10 +6,12 @@ import d2game.location
 import pygame.sprite
 import pygame.image
 import pygame.transform
+import game
 
 
 class SpriteLib(pygame.sprite.Sprite):
     watered = False
+
     def __init__(self, id):
         pygame.sprite.Sprite.__init__(self)
 
@@ -43,6 +45,7 @@ class TownType(SpriteLib):
 
 class WellType(SpriteLib):
     watered = True
+
     def __init__(self, id):
         import config.resource
         self.lib = config.resource.Wells
@@ -101,6 +104,9 @@ class LevelMap(d2game.levelmap.LevelMap):
             AqueductType(1, (0, 0), 180),
             AqueductType(1, (0, 0), 270),
         ]
+
+        self.xsize = game.FIELD_SIZE[0]
+        self.ysize = game.FIELD_SIZE[1]
 
     def generate_tile(self):
         import random

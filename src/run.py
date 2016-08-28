@@ -15,11 +15,11 @@ def main():
     logging.info('Starting')
 
     import config.resource
-    import game
+    import game.game
     import game.gui
 
     gui = game.gui.GUI()
-    g = game.Game()
+    g = game.game.Game()
     gui.set_game(g)
     gui.set_background(config.resource.BACKGROUND)
     gui.draw_background()

@@ -9,6 +9,7 @@ STATE_START = 0
 STATE_RUNNING = 1
 STATE_EXIT = 2
 
+
 class Game():
     def __init__(self):
         self.state = STATE_START
@@ -19,7 +20,7 @@ class Game():
         self.state = STATE_RUNNING
 
     def turn(self):
-        self.hero.update(self.level)
+        pass
 
     def quit(self):
         self.state = STATE_EXIT
