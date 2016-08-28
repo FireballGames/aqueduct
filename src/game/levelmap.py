@@ -5,6 +5,7 @@ import d2game.levelmap
 import d2game.location
 import pygame.sprite
 import pygame.image
+import pygame.transform
 
 
 class SpriteLib(pygame.sprite.Sprite):
@@ -15,6 +16,7 @@ class SpriteLib(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename)
         self.rect = self.image.get_rect()
         self.type_id = id
+        self.start_point = (0, 0)
 
 
 class TerrType(SpriteLib):
@@ -46,10 +48,13 @@ class WellType(SpriteLib):
 
 
 class AqueductType(SpriteLib):
-    def __init__(self, id):
+    def __init__(self, id, start_point, rotation):
         import config.resource
         self.lib = config.resource.Aqueducts
         SpriteLib.__init__(self, id)
+
+        self.start_point = start_point
+        self.image = pygame.transform.rotate(self.image, rotation)
 
 
 class Town(d2game.location.ObjectType):
@@ -87,8 +92,12 @@ class LevelMap(d2game.levelmap.LevelMap):
         ]
 
         self.aqueducts = [
-            AqueductType(0),
-            AqueductType(1),
+            AqueductType(0, (0, -1), 0),
+            AqueductType(0, (-1, 0), 90),
+            AqueductType(1, (0, 0), 0),
+            AqueductType(1, (0, 0), 90),
+            AqueductType(1, (0, 0), 180),
+            AqueductType(1, (0, 0), 270),
         ]
 
     def generate_tile(self):
@@ -143,8 +152,7 @@ class LevelMap(d2game.levelmap.LevelMap):
 
     def set_random_aqueduct(self, tile):
         import random
-        i = random.randrange(0, 2)
-        a = self.aqueducts[i]
+        a = random.choice(self.aqueducts)
         o = tile.set_object(a)
         self.entities.add(o)
         return o
