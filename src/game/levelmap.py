@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import d2game.levelmap
+import d2game.location
 import pygame.sprite
 import pygame.image
 
@@ -50,49 +51,12 @@ class WellType(pygame.sprite.Sprite):
         self.type_id = id
 
 
-class TileObject(pygame.sprite.Sprite):
-    def __init__(self, tile_type):
-        pygame.sprite.Sprite.__init__(self)
-
-        self._layer = 10
-        self.tile_type = tile_type
-        self.image = tile_type.image
-        self.rect = self.image.get_rect()
+class Town(d2game.location.ObjectType):
+    type_id = 2
 
 
-class Tile(pygame.sprite.Sprite):
-    def __init__(self, terrain, tile_type=None):
-        pygame.sprite.Sprite.__init__(self)
-
-        self._layer = 1
-        self.terrain = terrain
-        self.image = terrain.image
-        self.rect = self.image.get_rect()
-        if tile_type:
-            self.tile_object = TileObject(tile_type)
-            self.tile_object.rect = self.rect
-        else:
-            self.tile_object = None
-
-
-class Town(TileObject):
-    def __init__(self, town_type):
-        pygame.sprite.Sprite.__init__(self)
-
-        self._layer = 50
-        self.tile_type = 3
-        self.image = town_type.image
-        self.rect = self.image.get_rect()
-
-
-class Well(TileObject):
-    def __init__(self, well_type):
-        pygame.sprite.Sprite.__init__(self)
-
-        self._layer = 50
-        self.tile_type = 3
-        self.image = well_type.image
-        self.rect = self.image.get_rect()
+class Well(d2game.location.ObjectType):
+    type_id = 3
 
 
 class LevelMap(d2game.levelmap.LevelMap):
@@ -122,17 +86,17 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         i = random.randrange(0, 100)
         if i > 90:
-            return Tile(self.terrains[1])
+            return d2game.location.Location(self.terrains[1])
         else:
             terr = self.terrains[0]
 
         i = random.randrange(0, 100)
         if i > 95:
-            return Tile(terr, self.tiles[1])
+            return d2game.location.Location(terr, object_type=self.tiles[1])
         elif i > 90:
-            return Tile(terr, self.tiles[0])
+            return d2game.location.Location(terr, object_type=self.tiles[0])
         else:
-            return Tile(terr)
+            return d2game.location.Location(terr)
 
     def generate_map(self):
         self.locations = [[self.generate_tile() for j in range(self.ysize)] for i in range(self.xsize)]
@@ -142,7 +106,7 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         town = Town(self.towns[0])
         x, y = random.randrange(0, 16), random.randrange(0, 16)
-        self.locations[x][y].tile_object = town
+        self.locations[x][y].map_object = d2game.location.MapObject(town)
         logging.debug((x, y))
 
         well = Well(self.wells[0])
@@ -153,8 +117,8 @@ class LevelMap(d2game.levelmap.LevelMap):
                 t = self.locations[i][j]
                 t.terrain = self.terrains[0]
                 t.image = t.terrain.image
-                t.tile_object = None
-        self.locations[x][y].tile_object = well
+                t.map_object = None
+        self.locations[x][y].map_object = d2game.location.MapObject(well)
 
     def generate_surface(self):
         for i in range(self.xsize):
@@ -163,6 +127,6 @@ class LevelMap(d2game.levelmap.LevelMap):
                 tile.rect.x = i * 32
                 tile.rect.y = j * 32
                 self.entities.add(tile)
-                if tile.tile_object:
-                    tile.tile_object.rect = tile.rect
-                    self.entities.add(tile.tile_object)
+                if tile.map_object:
+                    tile.map_object.rect = tile.rect
+                    self.entities.add(tile.map_object)
