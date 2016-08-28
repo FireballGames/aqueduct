@@ -20,5 +20,11 @@ Wells = [
     "{}/images/tank_full.png".format(config.RES_DIR),
     "{}/images/tank_empty.png".format(config.RES_DIR),
 ]
+Aqueducts = [
+    "{}/images/aqueduct_full.png".format(config.RES_DIR),
+    "{}/images/aqueduct_empty.png".format(config.RES_DIR),
+    "{}/images/aqueduct_corner_full.png".format(config.RES_DIR),
+    "{}/images/aqueduct_corner_empty.png".format(config.RES_DIR),
+]
 
 HERO_SIZE = (91, 173)

@@ -43,5 +43,11 @@ class Location(Tile):
 
         object_type = kargs.get("object_type")
         if object_type:
-            self.map_object = MapObject(object_type)
+            self.set_object(object_type)
+
+    def set_object(self, map_object):
+        if map_object:
+            self.map_object = MapObject(map_object)
             self.map_object.rect = self.rect
+        else:
+            self.map_object = None

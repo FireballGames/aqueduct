@@ -45,12 +45,23 @@ class WellType(SpriteLib):
         SpriteLib.__init__(self, id)
 
 
+class AqueductType(SpriteLib):
+    def __init__(self, id):
+        import config.resource
+        self.lib = config.resource.Aqueducts
+        SpriteLib.__init__(self, id)
+
+
 class Town(d2game.location.ObjectType):
     type_id = 2
 
 
 class Well(d2game.location.ObjectType):
     type_id = 3
+
+
+class Aqueduct(d2game.location.ObjectType):
+    type_id = 10
 
 
 class LevelMap(d2game.levelmap.LevelMap):
@@ -73,6 +84,10 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         self.wells = [
             WellType(0),
+        ]
+
+        self.aqueducts = [
+            AqueductType(0),
         ]
 
     def generate_tile(self):
@@ -100,7 +115,7 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         town = Town(self.towns[0])
         x, y = random.randrange(0, 16), random.randrange(0, 16)
-        self.locations[x][y].map_object = d2game.location.MapObject(town)
+        self.locations[x][y].set_object(town)
         logging.debug((x, y))
 
         well = Well(self.wells[0])
@@ -111,8 +126,8 @@ class LevelMap(d2game.levelmap.LevelMap):
                 t = self.locations[i][j]
                 t.terrain = self.terrains[0]
                 t.image = t.terrain.image
-                t.map_object = None
-        self.locations[x][y].map_object = d2game.location.MapObject(well)
+                t.set_object(None)
+        self.locations[x][y].set_object(well)
 
     def generate_surface(self):
         for i in range(self.xsize):
