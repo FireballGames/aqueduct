@@ -1,9 +1,7 @@
 window:
-  # height: 600
-  # width: 800
   size:
-    - 800
-    - 600
+    - 1024
+    - 708
 resource: res
 logging:
   level: DEBUG
