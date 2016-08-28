@@ -51,3 +51,4 @@ class Location(Tile):
             self.map_object.rect = self.rect
         else:
             self.map_object = None
+        return self.map_object

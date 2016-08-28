@@ -21,9 +21,9 @@ Wells = [
     "{}/images/tank_empty.png".format(config.RES_DIR),
 ]
 Aqueducts = [
-    "{}/images/aqueduct_full.png".format(config.RES_DIR),
+    # "{}/images/aqueduct_full.png".format(config.RES_DIR),
     "{}/images/aqueduct_empty.png".format(config.RES_DIR),
-    "{}/images/aqueduct_corner_full.png".format(config.RES_DIR),
+    # "{}/images/aqueduct_corner_full.png".format(config.RES_DIR),
     "{}/images/aqueduct_corner_empty.png".format(config.RES_DIR),
 ]
 
