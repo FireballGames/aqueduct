@@ -97,8 +97,8 @@ class LevelMap(d2game.levelmap.LevelMap):
         ]
 
         self.aqueducts = [
-            AqueductType(0, (0, -1), 0),
-            AqueductType(0, (-1, 0), 90),
+            AqueductType(0, (0, 0), 0),
+            AqueductType(0, (0, 0), 90),
             AqueductType(1, (0, 0), 0),
             AqueductType(1, (0, 0), 90),
             AqueductType(1, (0, 0), 180),
@@ -139,8 +139,8 @@ class LevelMap(d2game.levelmap.LevelMap):
         well = Well(self.wells[0])
         x, y = random.randrange(0, 12), random.randrange(0, 12)
         logging.debug((x, y))
-        for i in range(x, x+4):
-            for j in range(y, y+4):
+        for i in range(x, x+3):
+            for j in range(y, y+3):
                 t = self.locations[i][j]
                 t.terrain = self.terrains[0]
                 t.image = t.terrain.image
