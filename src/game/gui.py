@@ -75,7 +75,7 @@ class GUI(d2gui.GUI):
             self.draw_cash()
 
     def autocash(self):
-        self.game.cash += 1
+        self.game.cash += self.game.level.wages()
         self.game.turn()
         # self.draw_background()
         # self.update()
@@ -102,7 +102,8 @@ class GUI(d2gui.GUI):
         clicked = [s for s in self.game.level.entities if s.rect.collidepoint(mouse_pos)]
         for c in clicked:
             if isinstance(c, d2game.location.Location):
-                self.game.cash -= 10
-                a = self.game.level.set_aqueduct(c, self.tool_panel.active_tool())
-                self.tool_panel.draw_aqueduct(self.game.level)
+                if self.game.cash >= 10:
+                    self.game.cash -= 10
+                    a = self.game.level.set_aqueduct(c, self.tool_panel.active_tool())
+                    self.tool_panel.draw_aqueduct(self.game.level)
         logging.debug(clicked)

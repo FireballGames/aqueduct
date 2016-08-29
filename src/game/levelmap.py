@@ -22,14 +22,16 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         self.xsize, self.ysize = FIELD_SIZE
         self.aqueducts = []
+        self.towns = []
 
     def random_terrain(self):
-        import random
-        i = random.randrange(0, 100)
-        if i > 90:
-            return game.terrain.Water()
-        else:
-            return game.terrain.Grass()
+        return game.terrain.Grass()
+        # import random
+        # i = random.randrange(0, 100)
+        # if i > 90:
+        #     return game.terrain.Water()
+        # else:
+        #     return game.terrain.Grass()
 
     def generate_tile(self):
         terr = self.random_terrain()
@@ -55,6 +57,7 @@ class LevelMap(d2game.levelmap.LevelMap):
         x, y = random.randrange(0, 16), random.randrange(0, 16)
         self.locations[x][y].set_object(town)
         logging.debug((x, y))
+        self.towns.append(town)
 
         well = game.mapobjects.Well()
         x, y = random.randrange(0, 12), random.randrange(0, 12)
@@ -99,3 +102,9 @@ class LevelMap(d2game.levelmap.LevelMap):
         for a in aqueducts:
             logging.debug("Found aqueduct %s", str(a))
             a.set_watered(True)
+        for t in self.towns:
+            logging.debug("Found town %s", str(t))
+            t.set_watered(t.update_watered(self))
+            
+    def wages(self):
+        return 1 + len([t for t in self.towns if t.is_watered()]) * 5            

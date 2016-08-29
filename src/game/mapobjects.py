@@ -19,7 +19,10 @@ def load():
     resources = {
         TREE_ID: config.resource.load(config.resource.Tiles, 2),
         ROCK_ID: config.resource.load(config.resource.Tiles, 3),
-        TOWN_ID: config.resource.load(config.resource.Towns, 0),
+        TOWN_ID: [
+            config.resource.load(config.resource.Towns, 0),
+            config.resource.load(config.resource.Towns, 1),
+        ],
         WELL_ID: config.resource.load(config.resource.Wells, 0),
         AQUEDUCT_ID: [
             [
@@ -35,9 +38,9 @@ def load():
     return resources
 
 
-def load_aqueduct(id, points, rotation):
+def load_aqueduct(image_id, points, rotation):
     import pygame.transform
-    res = resources[AQUEDUCT_ID][id]
+    res = resources[AQUEDUCT_ID][image_id]
     images = [pygame.transform.rotate(image, rotation) for image in res]
     return images, points
 
@@ -56,9 +59,8 @@ def load_aqueducts():
 
 class MapObject(d2game.location.MapObject):
     def __init__(self):
-        d2game.location.MapObject.__init__(self, self.get_image())
-
         self.watered = False
+        d2game.location.MapObject.__init__(self, self.get_image())
 
     def get_pos(self):
         return int(self.rect.x / 32), int(self.rect.y / 32)
@@ -81,7 +83,28 @@ class Rock(MapObject):
 
 class Town(MapObject):
     type_id = TOWN_ID
+    points = ((1, 0), (-1, 0), (0, 1), (0, -1))
 
+    def __init__(self):
+        self.images = resources[self.type_id]
+        MapObject.__init__(self)
+
+    def get_image(self):
+        if self.watered:
+            return self.images[1]
+        else:
+            return self.images[0]
+
+    def update_watered(self, level):
+        x, y = self.get_pos()
+        l = [level.locations[x + px][y + py] for px, py in self.points]
+        w = [i for i in l if i.is_watered()]
+        return len(w) > 0        
+    
+    def set_watered(self, watered):
+        self.watered = watered
+        self.image = self.get_image()
+        
 
 class Well(MapObject):
     type_id = WELL_ID
