@@ -25,10 +25,12 @@ def load_image(name):
 class GUI():
     def __init__(self, window):
         pygame.init()
-        modes = [get_screenmode(m) for m in window["mode"]]
+        
         mode = 0
-        for m in modes:
-            mode = mode | m
+        if "mode" in window.keys():
+            modes = [get_screenmode(m) for m in window["mode"]]
+            for m in modes:
+                mode = mode | m
         self.window = pygame.display.set_mode(window["size"], mode)
         pygame.display.set_caption(game.TITLE)
 

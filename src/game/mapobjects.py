@@ -22,8 +22,14 @@ def load():
         TOWN_ID: config.resource.load(config.resource.Towns, 0),
         WELL_ID: config.resource.load(config.resource.Wells, 0),
         AQUEDUCT_ID: [
-            config.resource.load(config.resource.Aqueducts, 0),
-            config.resource.load(config.resource.Aqueducts, 1),
+            [
+                config.resource.load(config.resource.Aqueducts, 0),
+                config.resource.load(config.resource.Aqueducts, 1),
+            ],
+            [
+                config.resource.load(config.resource.Aqueducts, 2),
+                config.resource.load(config.resource.Aqueducts, 3),
+            ],
         ],
     }
     return resources
@@ -31,9 +37,9 @@ def load():
 
 def load_aqueduct(id, points, rotation):
     import pygame.transform
-    image = resources[AQUEDUCT_ID][id]
-    image = pygame.transform.rotate(image, rotation)
-    return image, points
+    res = resources[AQUEDUCT_ID][id]
+    images = [pygame.transform.rotate(image, rotation) for image in res]
+    return images, points
 
 
 def load_aqueducts():
@@ -85,13 +91,14 @@ class Well(MapObject):
 class Aqueduct(MapObject):
     type_id = AQUEDUCT_ID
 
-    def __init__(self, image, points):
-        self.image = image
+    def __init__(self, images, points):
+        self.images = images
+        self.image_id = 0
         MapObject.__init__(self)
         self.points = points
 
     def get_image(self):
-        return self.image
+        return self.images[self.image_id]
 
     def update_watered(self, level):
         x, y = self.get_pos()
@@ -100,6 +107,7 @@ class Aqueduct(MapObject):
 
         import logging
         logging.debug("Seek for watered points")
+        logging.debug("Image ID is %d", self.image_id)
         logging.debug(self.points)
         logging.debug("Points are %s", str(l))
         logging.debug("I am at %s", str(self.get_pos()))
@@ -107,3 +115,12 @@ class Aqueduct(MapObject):
         logging.debug("Watered points are %s", str(w))
         logging.debug("%d watered points found", len(w))
         return len(w) > 0
+    
+    def set_watered(self, watered):
+        self.watered = watered
+        if self.watered:
+            self.image_id = 1
+        else:
+            self.image_id = 0
+        self.image = self.get_image()
+        self.dirty = 1

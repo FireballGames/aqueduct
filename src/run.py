@@ -33,7 +33,7 @@ def main():
 
     while g.is_running():
         gui.process_events()
-        g.turn()
+        # g.turn()
         gui.update()
     g.quit()
 

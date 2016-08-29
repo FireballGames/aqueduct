@@ -80,12 +80,14 @@ class LevelMap(d2game.levelmap.LevelMap):
         import random
         data = random.choice(game.mapobjects.aqueducts)
         a = game.mapobjects.Aqueduct(*data)
-        print(a)
+        import logging
+        logging.debug("Getting aqueduct %s", a)
         return a
 
-    def set_random_aqueduct(self, tile):
-        o = tile.set_object(self.get_random_aqueduct())
-        print(o)
+    def set_aqueduct(self, tile, aqueduct):
+        o = tile.set_object(aqueduct)
+        import logging
+        logging.debug("Setting aqueduct %s", o)
         self.entities.add(o)
         self.aqueducts.append(o)
         return o
@@ -93,6 +95,7 @@ class LevelMap(d2game.levelmap.LevelMap):
     def update_watering(self):
         aqueducts = [a for a in self.aqueducts if a.update_watered(self)]
         import logging
-        logging.debug(aqueducts)
+        logging.debug("Aqueducts %s", str(aqueducts))
         for a in aqueducts:
-            print(a)
+            logging.debug("Found aqueduct %s", str(a))
+            a.set_watered(True)

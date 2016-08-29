@@ -37,6 +37,9 @@ class Tools(pygame.Surface):
     def draw_tools(self):
         screen = pygame.display.get_surface()
         screen.blit(self, (800, 600))
+        
+    def active_tool(self):
+        return self.aqueducts[self.selected_id]
 
 
 class GUI(d2gui.GUI):
@@ -71,10 +74,16 @@ class GUI(d2gui.GUI):
         if self.game.state == d2game.STATE_RUNNING:
             self.draw_cash()
 
+    def autocash(self):
+        self.game.cash += 1
+        self.game.turn()
+        # self.draw_background()
+        # self.update()
+      
     def process_event(self, event):
         d2gui.GUI.process_event(self, event)
         if event.type == game.AUTOCASH_EVENT:
-            self.game.cash += 1
+            self.autocash()
 
     def key_event(self, key, down):
         if self.run_game():
@@ -94,5 +103,6 @@ class GUI(d2gui.GUI):
         for c in clicked:
             if isinstance(c, d2game.location.Location):
                 self.game.cash -= 10
-                a = self.game.level.set_random_aqueduct(c)
+                a = self.game.level.set_aqueduct(c, self.tool_panel.active_tool())
+                self.tool_panel.draw_aqueduct(self.game.level)
         logging.debug(clicked)
