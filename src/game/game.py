@@ -23,5 +23,4 @@ class Game(d2game.Game):
 
     def turn(self):
         d2game.Game.turn(self)
-        for e in self.level.enemies:
-            e.move(self.level)
+        self.level.update_watering()

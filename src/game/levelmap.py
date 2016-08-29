@@ -7,71 +7,46 @@ import pygame.sprite
 import pygame.image
 import pygame.transform
 import game
+import game.imagelib
+import game.terrain
 
 
-class SpriteLib(pygame.sprite.Sprite):
+class TileType(game.imagelib.SpriteLib):
     watered = False
 
     def __init__(self, id):
-        pygame.sprite.Sprite.__init__(self)
-
-        filename = self.lib[id]
-        self.image = pygame.image.load(filename)
-        self.rect = self.image.get_rect()
-        self.type_id = id
-        self.start_point = (0, 0)
-
-
-class TerrType(SpriteLib):
-    def __init__(self, id):
         import config.resource
         self.lib = config.resource.Tiles
-        SpriteLib.__init__(self, id)
+        game.imagelib.SpriteLib.__init__(self, self.lib[id])
 
 
-class TileType(SpriteLib):
-    def __init__(self, id):
-        import config.resource
-        self.lib = config.resource.Tiles
-        SpriteLib.__init__(self, id)
+class TownType(game.imagelib.SpriteLib):
+    watered = False
 
-
-class TownType(SpriteLib):
     def __init__(self, id):
         import config.resource
         self.lib = config.resource.Towns
-        SpriteLib.__init__(self, id)
+        game.imagelib.SpriteLib.__init__(self, self.lib[id])
 
 
-class WellType(SpriteLib):
+class WellType(game.imagelib.SpriteLib):
     watered = True
 
     def __init__(self, id):
         import config.resource
         self.lib = config.resource.Wells
-        SpriteLib.__init__(self, id)
+        game.imagelib.SpriteLib.__init__(self, self.lib[id])
 
 
-class AqueductType(SpriteLib):
-    def __init__(self, id, start_point, rotation):
+class AqueductType(game.imagelib.SpriteLib):
+    def __init__(self, id, rotation, points):
         import config.resource
         self.lib = config.resource.Aqueducts
-        SpriteLib.__init__(self, id)
+        game.imagelib.SpriteLib.__init__(self, self.lib[id])
 
-        self.start_point = start_point
+        self.start_point = (0, 0)
+        self.points = points
         self.image = pygame.transform.rotate(self.image, rotation)
-
-
-class Town(d2game.location.ObjectType):
-    type_id = 2
-
-
-class Well(d2game.location.ObjectType):
-    type_id = 3
-
-
-class Aqueduct(d2game.location.ObjectType):
-    type_id = 10
 
 
 class LevelMap(d2game.levelmap.LevelMap):
@@ -79,8 +54,8 @@ class LevelMap(d2game.levelmap.LevelMap):
         d2game.levelmap.LevelMap.__init__(self, player)
 
         self.terrains = [
-            TerrType(0),
-            TerrType(1),
+            game.terrain.TerrType(0),
+            game.terrain.TerrType(1),
         ]
 
         self.tiles = [
@@ -96,17 +71,18 @@ class LevelMap(d2game.levelmap.LevelMap):
             WellType(0),
         ]
 
-        self.aqueducts = [
-            AqueductType(0, (0, 0), 0),
-            AqueductType(0, (0, 0), 90),
-            AqueductType(1, (0, 0), 0),
-            AqueductType(1, (0, 0), 90),
-            AqueductType(1, (0, 0), 180),
-            AqueductType(1, (0, 0), 270),
+        self.aqueduct_types = [
+            AqueductType(0, 0, ((0, -1), (0, 1))),
+            AqueductType(0, 90, ((-1, 0), (1, 0))),
+            AqueductType(1, 0, ((0, -1), (1, 0))),
+            AqueductType(1, 90, ((-1, 0), (0, -1))),
+            AqueductType(1, 180, ((0, 1), (-1, 0))),
+            AqueductType(1, 270, ((1, 0), (0, 1))),
         ]
 
         self.xsize = game.FIELD_SIZE[0]
         self.ysize = game.FIELD_SIZE[1]
+        self.aqueducts = []
 
     def generate_tile(self):
         import random
@@ -119,11 +95,11 @@ class LevelMap(d2game.levelmap.LevelMap):
 
         i = random.randrange(0, 100)
         if i > 95:
-            return d2game.location.Location(terr, object_type=self.tiles[1])
+            return game.terrain.Location(terr, object_type=self.tiles[1])
         elif i > 90:
-            return d2game.location.Location(terr, object_type=self.tiles[0])
+            return game.terrain.Location(terr, object_type=self.tiles[0])
         else:
-            return d2game.location.Location(terr)
+            return game.terrain.Location(terr)
 
     def generate_map(self):
         self.locations = [[self.generate_tile() for j in range(self.ysize)] for i in range(self.xsize)]
@@ -131,12 +107,12 @@ class LevelMap(d2game.levelmap.LevelMap):
         import random
         import logging
 
-        town = Town(self.towns[0])
+        town = game.terrain.Town(self.towns[0])
         x, y = random.randrange(0, 16), random.randrange(0, 16)
         self.locations[x][y].set_object(town)
         logging.debug((x, y))
 
-        well = Well(self.wells[0])
+        well = game.terrain.Well(self.wells[0])
         x, y = random.randrange(0, 12), random.randrange(0, 12)
         logging.debug((x, y))
         for i in range(x, x+3):
@@ -160,7 +136,16 @@ class LevelMap(d2game.levelmap.LevelMap):
 
     def set_random_aqueduct(self, tile):
         import random
-        a = random.choice(self.aqueducts)
-        o = tile.set_object(a)
+        a = random.choice(self.aqueduct_types)
+        o = tile.set_object(game.terrain.Aqueduct(a))
+        print(o)
         self.entities.add(o)
+        self.aqueducts.append(o)
         return o
+
+    def update_watering(self):
+        aqueducts = [a for a in self.aqueducts if a.is_watered(self)]
+        import logging
+        logging.debug(aqueducts)
+        for a in aqueducts:
+            print(a)
