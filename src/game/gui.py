@@ -79,5 +79,6 @@ class GUI(d2gui.GUI):
         clicked = [s for s in self.game.level.entities if s.rect.collidepoint(mouse_pos)]
         for c in clicked:
             if isinstance(c, d2game.location.Location):
+                self.game.cash -= 10
                 a = self.game.level.set_random_aqueduct(c)
         logging.debug(clicked)
