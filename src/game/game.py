@@ -4,7 +4,6 @@
 
 import d2game
 import game
-import game.player
 import game.levelmap
 
 

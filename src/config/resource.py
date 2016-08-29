@@ -5,7 +5,9 @@ import config
 
 
 LOGO = "{}/title.png".format(config.RES_DIR)
-PLAYER = "{}/well.png".format(config.RES_DIR)
+# PLAYER = "{}/well.png".format(config.RES_DIR)
+# HERO_SIZE = (91, 173)
+TILE_SIZE = (32, 32)
 
 Tiles = [
     "{}/tiles/grass.png".format(config.RES_DIR),
@@ -14,17 +16,13 @@ Tiles = [
     "{}/tiles/rock.png".format(config.RES_DIR),
 ]
 Towns = [
-    "{}/images/house_without_water.png".format(config.RES_DIR),
+    "{}/units/house_without_water.png".format(config.RES_DIR),
 ]
 Wells = [
-    "{}/images/tank_full.png".format(config.RES_DIR),
-    "{}/images/tank_empty.png".format(config.RES_DIR),
+    "{}/units/tank_full.png".format(config.RES_DIR),
+    "{}/units/tank_empty.png".format(config.RES_DIR),
 ]
 Aqueducts = [
-    # "{}/images/aqueduct_full.png".format(config.RES_DIR),
-    "{}/images/aqueduct_empty.png".format(config.RES_DIR),
-    # "{}/images/aqueduct_corner_full.png".format(config.RES_DIR),
-    "{}/images/aqueduct_corner_empty.png".format(config.RES_DIR),
+    "{}/aqueduct/aqueduct_empty.png".format(config.RES_DIR),
+    "{}/aqueduct/aqueduct_corner_empty.png".format(config.RES_DIR),
 ]
-
-HERO_SIZE = (91, 173)
