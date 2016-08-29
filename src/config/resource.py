@@ -26,3 +26,8 @@ Aqueducts = [
     "{}/aqueduct/aqueduct_empty.png".format(config.RES_DIR),
     "{}/aqueduct/aqueduct_corner_empty.png".format(config.RES_DIR),
 ]
+
+
+def load(files, id):
+    import pygame.image
+    return pygame.image.load(files[id])
