@@ -2,8 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import pygame
-import config
 import game
+
+
+def get_screenmode(screenmode):
+    mode = getattr(pygame, screenmode.upper())
+    if not isinstance(mode, int):
+        return 0
+    return mode
 
 
 def load_image(name):
@@ -17,9 +23,10 @@ def load_image(name):
 
 
 class GUI():
-    def __init__(self):
+    def __init__(self, window):
         pygame.init()
-        self.window = pygame.display.set_mode(config.config["window"]["size"])
+        modes = [get_screenmode(m) for m in window["mode"]]
+        self.window = pygame.display.set_mode(window["size"], modes.pop())
         pygame.display.set_caption(game.TITLE)
 
         # self.bg = background(config.DISPLAY)

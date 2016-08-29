@@ -1,7 +1,9 @@
 window:
   size:
     - 1024
-    - 708
+    - 768
+  mode:
+    - fullscreen
 resource: res
 logging:
   level: DEBUG

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import config
 import game
 import d2gui
 # import pygame
@@ -16,7 +17,7 @@ import d2gui
 
 class GUI(d2gui.GUI):
     def __init__(self):
-        d2gui.GUI.__init__(self)
+        d2gui.GUI.__init__(self, config.config["window"])
 
         import pygame
         self.show_logo()
