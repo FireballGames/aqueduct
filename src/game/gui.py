@@ -53,9 +53,9 @@ class GUI(d2gui.GUI):
 
     def draw(self):
         import d2game
+        d2gui.GUI.draw(self)
         if self.game.state == d2game.STATE_RUNNING:
             self.draw_cash()
-        d2gui.GUI.draw(self)
 
     def process_event(self, event):
         d2gui.GUI.process_event(self, event)

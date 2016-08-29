@@ -5,6 +5,6 @@ import pygame
 
 TITLE = "Aqueduct"
 BACKGROUND_COLOR = pygame.Color(0, 0, 0)
-FIELD_SIZE = (24, 18)
+FIELD_SIZE = (30, 22)
 AUTOCASH_EVENT = pygame.USEREVENT + 1
 AUTOCASH_TIME = 500

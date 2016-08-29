@@ -66,6 +66,8 @@ class GUI():
         if self.game.level:
             self.game.level.entities.draw(self.window)
 
+    def update(self):
+        self.draw()
         pygame.display.update()     # обновление и вывод всех изменений на экран
         self.timer.tick(30)
 
