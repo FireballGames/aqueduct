@@ -9,3 +9,4 @@ window:
 resource: res
 logging:
   level: DEBUG
+  filename: log/game.log
