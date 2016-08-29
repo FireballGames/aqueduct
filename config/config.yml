@@ -4,6 +4,8 @@ window:
     - 768
   mode:
     - fullscreen
+    - hwsurface
+    - doublebuf
 resource: res
 logging:
   level: DEBUG

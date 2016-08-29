@@ -26,7 +26,10 @@ class GUI():
     def __init__(self, window):
         pygame.init()
         modes = [get_screenmode(m) for m in window["mode"]]
-        self.window = pygame.display.set_mode(window["size"], modes.pop())
+        mode = 0
+        for m in modes:
+            mode = mode | m
+        self.window = pygame.display.set_mode(window["size"], mode)
         pygame.display.set_caption(game.TITLE)
 
         # self.bg = background(config.DISPLAY)
