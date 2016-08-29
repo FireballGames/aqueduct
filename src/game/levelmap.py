@@ -2,27 +2,25 @@
 # -*- coding: utf-8 -*-
 
 import d2game.levelmap
-import d2game.location
-import pygame.sprite
-import pygame.image
-import pygame.transform
-import game
+# import d2game.location
+
+# import game
 import game.imagelib
 import game.terrain
 import game.mapobjects
+
+FIELD_SIZE = (30, 22)
 
 
 class LevelMap(d2game.levelmap.LevelMap):
     def __init__(self, player):
         d2game.levelmap.LevelMap.__init__(self, player)
 
-        import config.resource
         game.terrain.load()
         game.mapobjects.load()
         game.mapobjects.load_aqueducts()
 
-        self.xsize = game.FIELD_SIZE[0]
-        self.ysize = game.FIELD_SIZE[1]
+        self.xsize, self.ysize = FIELD_SIZE
         self.aqueducts = []
 
     def random_terrain(self):
