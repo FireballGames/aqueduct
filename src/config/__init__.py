@@ -30,6 +30,8 @@ def load():
 
         log = config.get("logging", dict())
         log["level"] = get_loglevel(log.get("level"))
+        if "filename" in log.keys():
+            log["filename"] = "{}/{}".format(format(ROOT_DIR), log.get("filename"))
         logging.basicConfig(**log)
 
     logging.debug("Config data:{}".format(config))
