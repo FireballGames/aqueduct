@@ -93,12 +93,15 @@ class Aqueduct(MapObject):
 
     def __init__(self, images, points):
         self.images = images
-        self.image_id = 0
+        self.watered = False
         MapObject.__init__(self)
         self.points = points
 
     def get_image(self):
-        return self.images[self.image_id]
+        if self.watered:
+            return self.images[1]
+        else:
+            return self.images[0]
 
     def update_watered(self, level):
         x, y = self.get_pos()
@@ -107,7 +110,6 @@ class Aqueduct(MapObject):
 
         import logging
         logging.debug("Seek for watered points")
-        logging.debug("Image ID is %d", self.image_id)
         logging.debug(self.points)
         logging.debug("Points are %s", str(l))
         logging.debug("I am at %s", str(self.get_pos()))
@@ -118,9 +120,4 @@ class Aqueduct(MapObject):
     
     def set_watered(self, watered):
         self.watered = watered
-        if self.watered:
-            self.image_id = 1
-        else:
-            self.image_id = 0
         self.image = self.get_image()
-        self.dirty = 1

@@ -5,7 +5,7 @@
 import pygame.sprite
 
 
-class Tile(pygame.sprite.DirtySprite):
+class Tile(pygame.sprite.Sprite):
     start_point = (0, 0)
     def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
