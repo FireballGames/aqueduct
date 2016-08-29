@@ -4,29 +4,51 @@
 import config
 import game
 import d2gui
-# import pygame
+
+import pygame
+import pygame.image
+import pygame.font
+import pygame.draw
 
 
-# DIR_KEYS = {
-#     pygame.K_LEFT: "left",
-#     pygame.K_RIGHT: "right",
-#     pygame.K_UP: "up",
-#     pygame.K_DOWN: "down",
-# }
+class Tools(pygame.Surface):
+    def __init__(self):
+        pygame.Surface.__init__(self, (100, 100))
+        self.font = pygame.font.SysFont("monospace", 15)
+        self.aqueducts = [None for i in range(0, 6)]
+        self.selected_id = 0
+
+    def draw_aqueduct(self, level):
+        self.aqueducts = [level.get_random_aqueduct() for i in range(0, 6)]
+
+    def tool_pos(self, id):
+        return (id % 3) * 32, int(id / 3) * 32 + 32
+
+    def update_cash(self, cash):
+        label = self.font.render(str(cash), True, (0, 185, 0))
+
+        self.fill(pygame.Color(196, 196, 196))
+        self.blit(label, (32, 0))
+
+        for i, a in enumerate(self.aqueducts):
+            self.blit(a.image, self.tool_pos(i))
+        pygame.draw.rect(self, pygame.Color(0, 185, 0), pygame.Rect(self.tool_pos(self.selected_id), (32, 32)), 1)
+
+    def draw_tools(self):
+        screen = pygame.display.get_surface()
+        screen.blit(self, (800, 600))
 
 
 class GUI(d2gui.GUI):
     def __init__(self):
         d2gui.GUI.__init__(self, config.config["window"])
 
-        import pygame
         self.show_logo()
-        self.tool_panel = pygame.Surface((100, 100))
+
+        self.tool_panel = Tools()
 
     def show_logo(self):
         import config.resource
-        import pygame
-        import pygame.image
         screen = pygame.display.get_surface()
         logo = pygame.image.load(config.resource.LOGO)
         screen.blit(logo, (0, 0))
@@ -35,21 +57,13 @@ class GUI(d2gui.GUI):
         import d2game
         if self.game.state == d2game.STATE_START:
             self.game.run()
+            self.tool_panel.draw_aqueduct(self.game.level)
             return True
         return False
 
     def draw_cash(self):
-        import pygame
-        import pygame.font
-
-        font = pygame.font.SysFont("monospace", 15)
-        label = font.render(str(self.game.cash), True, (0, 185, 0))
-
-        self.tool_panel.fill(pygame.Color(196, 196, 196))
-        self.tool_panel.blit(label, (0, 0))
-
-        screen = pygame.display.get_surface()
-        screen.blit(self.tool_panel, (800, 600))
+        self.tool_panel.update_cash(self.game.cash)
+        self.tool_panel.draw_tools()
 
     def draw(self):
         import d2game
@@ -73,7 +87,7 @@ class GUI(d2gui.GUI):
             return 0
 
         import logging
-        logging.debug(mouse_pos)
+        logging.debug("Mouse is at %s", str(mouse_pos))
 
         import d2game.location
         clicked = [s for s in self.game.level.entities if s.rect.collidepoint(mouse_pos)]

@@ -78,10 +78,15 @@ class LevelMap(d2game.levelmap.LevelMap):
                     tile.map_object.rect = tile.rect
                     self.entities.add(tile.map_object)
 
-    def set_random_aqueduct(self, tile):
+    def get_random_aqueduct(self):
         import random
-        a = random.choice(game.mapobjects.aqueducts)
-        o = tile.set_object(game.mapobjects.Aqueduct(*a))
+        data = random.choice(game.mapobjects.aqueducts)
+        a = game.mapobjects.Aqueduct(*data)
+        print(a)
+        return a
+
+    def set_random_aqueduct(self, tile):
+        o = tile.set_object(self.get_random_aqueduct())
         print(o)
         self.entities.add(o)
         self.aqueducts.append(o)
