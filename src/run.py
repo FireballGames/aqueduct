@@ -28,13 +28,14 @@ def main():
         gui.update()
 
     # gui.set_background(config.resource.BACKGROUND)
-    gui.draw_background()
     g.run()
+    gui.draw_background()
 
     while g.is_running():
         gui.process_events()
         # g.turn()
         gui.update()
+
     g.quit()
 
 if __name__ == "__main__":

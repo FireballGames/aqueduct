@@ -23,6 +23,7 @@ class LevelMap(d2game.levelmap.LevelMap):
         self.xsize, self.ysize = FIELD_SIZE
         self.aqueducts = []
         self.towns = []
+        self.level_id = 0
 
     def random_terrain(self):
         return game.terrain.Grass()
@@ -101,6 +102,8 @@ class LevelMap(d2game.levelmap.LevelMap):
             a.set_watered(True)
         for t in self.towns:
             t.set_watered(t.update_watered(self))
+        left = [t for t in self.towns if not t.is_watered()]
+        return len(left) > 0
             
     def wages(self):
         return 1 + len([t for t in self.towns if t.is_watered()]) * 5            

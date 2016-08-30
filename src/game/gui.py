@@ -60,6 +60,16 @@ class GUI(d2gui.GUI):
         logo = pygame.image.load(config.resource.LOGO)
         screen.blit(logo, (0, 0))
 
+    def show_level(self, level_id):
+        font = pygame.font.SysFont("monospace", 100)
+        label = font.render(str(level_id), True, (0, 185, 0))
+
+        import config.resource
+        screen = pygame.display.get_surface()
+        logo = pygame.image.load(config.resource.LOGO)
+        screen.blit(logo, (0, 0))
+        screen.blit(label, (512, 384))
+
     def run_game(self):
         import d2game
         if self.game.state == d2game.STATE_START:
