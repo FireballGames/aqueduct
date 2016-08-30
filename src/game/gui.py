@@ -102,7 +102,7 @@ class GUI(d2gui.GUI):
         clicked = [s for s in self.game.level.entities if s.rect.collidepoint(mouse_pos)]
         for c in clicked:
             if isinstance(c, d2game.location.Location):
-                if self.game.cash >= 10:
+                if self.game.can_build(c):
                     self.game.cash -= 10
                     a = self.game.level.set_aqueduct(c, self.tool_panel.active_tool())
                     self.tool_panel.draw_aqueduct(self.game.level)

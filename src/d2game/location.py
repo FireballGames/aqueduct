@@ -26,6 +26,8 @@ class Location(Tile):
         self.map_object = None
 
     def set_object(self, map_object):
+        if self.map_object:
+            self.map_object.kill()
         if map_object:
             self.map_object = map_object
             self.map_object.rect = self.rect

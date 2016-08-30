@@ -58,6 +58,8 @@ def load_aqueducts():
 
 
 class MapObject(d2game.location.MapObject):
+    empty = False
+
     def __init__(self):
         self.watered = False
         d2game.location.MapObject.__init__(self, self.get_image())
@@ -79,11 +81,13 @@ class Tree(MapObject):
 class Rock(MapObject):
     type_id = ROCK_ID
     watered = False
+    empty = True
 
 
 class Town(MapObject):
     type_id = TOWN_ID
     points = ((1, 0), (-1, 0), (0, 1), (0, -1))
+    empty = True
 
     def __init__(self):
         self.images = resources[self.type_id]
@@ -109,6 +113,7 @@ class Town(MapObject):
 class Well(MapObject):
     type_id = WELL_ID
     watered = True
+    empty = True
 
 
 class Aqueduct(MapObject):

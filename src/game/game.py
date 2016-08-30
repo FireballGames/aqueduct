@@ -24,3 +24,8 @@ class Game(d2game.Game):
     def turn(self):
         d2game.Game.turn(self)
         self.level.update_watering()
+
+    def can_build(self, tile):
+        if self.cash < 10:
+            return False
+        return tile.can_build()

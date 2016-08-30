@@ -22,6 +22,7 @@ def load():
 
 class Location(d2game.location.Location):
     type_id = 0
+    empty = False
 
     def __init__(self):
         d2game.location.Location.__init__(self, self.get_image())
@@ -42,7 +43,13 @@ class Location(d2game.location.Location):
     def get_pos(self):
         return int(self.rect.x / 32), int(self.rect.y / 32)
 
-
+    def can_build(self):
+        if self.empty:
+            return False
+        if self.map_object:
+            return not self.map_object.empty
+        return True
+        
 class Water(Location):
     type_id = WATER_ID
     empty = True
