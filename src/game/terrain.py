@@ -30,9 +30,6 @@ class Location(d2game.location.Location):
         self.watered = False
 
     def is_watered(self):
-        import logging
-        logging.debug("Map object is %s", str(self.map_object))
-
         if self.map_object and self.map_object.is_watered():
             self.watered = True
         return self.watered

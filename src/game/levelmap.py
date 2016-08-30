@@ -97,13 +97,9 @@ class LevelMap(d2game.levelmap.LevelMap):
 
     def update_watering(self):
         aqueducts = [a for a in self.aqueducts if a.update_watered(self)]
-        import logging
-        logging.debug("Aqueducts %s", str(aqueducts))
         for a in aqueducts:
-            logging.debug("Found aqueduct %s", str(a))
             a.set_watered(True)
         for t in self.towns:
-            logging.debug("Found town %s", str(t))
             t.set_watered(t.update_watered(self))
             
     def wages(self):

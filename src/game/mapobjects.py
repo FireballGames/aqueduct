@@ -135,15 +135,6 @@ class Aqueduct(MapObject):
         x, y = self.get_pos()
         l = [level.locations[x + px][y + py] for px, py in self.points]
         w = [i for i in l if i.is_watered()]
-
-        import logging
-        logging.debug("Seek for watered points")
-        logging.debug(self.points)
-        logging.debug("Points are %s", str(l))
-        logging.debug("I am at %s", str(self.get_pos()))
-        logging.debug("Points are at %s", str([i.get_pos() for i in l]))
-        logging.debug("Watered points are %s", str(w))
-        logging.debug("%d watered points found", len(w))
         return len(w) > 0
     
     def set_watered(self, watered):

@@ -13,10 +13,13 @@ import pygame.draw
 
 class Tools(pygame.Surface):
     def __init__(self):
+        import config.resource
         pygame.Surface.__init__(self, (100, 100))
         self.font = pygame.font.SysFont("monospace", 15)
         self.aqueducts = [None for i in range(0, 6)]
         self.selected_id = 0
+        self.rect = pygame.Rect(800, 600, 100, 100)
+        self.gold = pygame.image.load(config.resource.GOLD)
 
     def draw_aqueduct(self, level):
         self.aqueducts = [level.get_random_aqueduct() for i in range(0, 6)]
@@ -28,6 +31,7 @@ class Tools(pygame.Surface):
         label = self.font.render(str(cash), True, (0, 185, 0))
 
         self.fill(pygame.Color(196, 196, 196))
+        self.blit(self.gold, (0, 0))
         self.blit(label, (32, 0))
 
         for i, a in enumerate(self.aqueducts):
@@ -97,6 +101,16 @@ class GUI(d2gui.GUI):
 
         import logging
         logging.debug("Mouse is at %s", str(mouse_pos))
+
+        if self.tool_panel.rect.collidepoint(mouse_pos):
+            logging.debug("Got panel")
+            x = (mouse_pos[0] - self.tool_panel.rect.x) / 32
+            y = (mouse_pos[1] - self.tool_panel.rect.y - 32) / 32
+            tool_id = int(y) * 3 + int(x)
+            if tool_id < 6:
+                self.tool_panel.selected_id = tool_id
+            self.draw_cash()
+            return 0
 
         import d2game.location
         clicked = [s for s in self.game.level.entities if s.rect.collidepoint(mouse_pos)]

@@ -5,6 +5,7 @@ import config
 
 
 LOGO = "{}/title.png".format(config.RES_DIR)
+GOLD = "{}/gui/coins.png".format(config.RES_DIR)
 # PLAYER = "{}/well.png".format(config.RES_DIR)
 # HERO_SIZE = (91, 173)
 TILE_SIZE = (32, 32)
